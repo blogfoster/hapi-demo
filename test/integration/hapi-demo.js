@@ -4,7 +4,7 @@ import Joi from 'joi';
 
 import HapiDemo from '../../source';
 
-describe('[unit/plugins] hapi-demo', function () {
+describe('[integration] hapi-demo', function () {
   let server;
 
   before('create server', function () {
@@ -41,7 +41,7 @@ describe('[unit/plugins] hapi-demo', function () {
         config: {
           plugins: {
             'hapi-demo': {
-              test: demoTest,
+              shouldApplyHandler: demoTest,
               handler(request, reply) { return reply('demo route called'); }
             }
           },

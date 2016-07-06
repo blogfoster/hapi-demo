@@ -46,7 +46,7 @@ server.route({
   config: {
     plugins: {
       'hapi-demo': {
-        test(request) {
+        shouldApplyHandler(request) {
           return request.query.demo;
         },
         handler(request, reply) {
@@ -66,7 +66,7 @@ server.route({
 Now when calling the `/test` route without any query parameters the normal hander will be called, but when
 calling it with query params like `/test?demo=true`, then the demo handler will be called;
 
-### Api
+### API
 
 #### plugin options
 

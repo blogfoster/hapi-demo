@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 const RouteSettingsSchema = Joi.object().keys({
-  test: Joi.func().arity(1),
+  shouldApplyHandler: Joi.func().arity(1),
   handler: Joi.func().arity(2)
 }).optional();
 
@@ -19,20 +19,22 @@ function forEachRoute(server, iterator) {
 }
 
 /**
- * create a new handler function, that checks the given `test` function and calls `demoHandler` or `handler`
+ * create a new handler function, that checks the given `shouldApplyHandler` function and
+ * calls `demoHandler` or `handler`
  *
- * @param {function(request: Hapi.Request) : Boolean} test - test function
- * @param {function(request: Hapi.Request, reply: Hapi.Reply)} demoHandler - demo handler called when test was true
- * @param {function(request: Hapi.Request, reply: Hapi.Reply)} handler - handler called when test was false
+ * @param {Object} demoOptions
+ * @param {function(request: Hapi.Request) : Boolean} params.shouldApplyHandler - test function
+ * @param {function(request: Hapi.Request, reply: Hapi.Reply)} params.handler - demo handler called when test was true
+ * @param {function(request: Hapi.Request, reply: Hapi.Reply)} origHandler - handler called when test was false
  * @return {function(request: Hapi.Request, reply: Hapi.Reply)} wrapped handler
  */
-function wrapHandler(test, demoHandler, handler) {
+function wrapHandler({ shouldApplyHandler, handler }, origHandler) {
   return function (request, reply) {
-    if (test(request)) {
-      return demoHandler(request, reply);
+    if (shouldApplyHandler(request)) {
+      return handler(request, reply);
     }
 
-    return handler(request, reply);
+    return origHandler(request, reply);
   };
 }
 
@@ -47,7 +49,7 @@ const plugin = {
         }
 
         const routeSettings = Joi.attempt(plugins['hapi-demo'], RouteSettingsSchema);
-        route.settings.handler = wrapHandler(routeSettings.test, routeSettings.handler, route.settings.handler);
+        route.settings.handler = wrapHandler(routeSettings, route.settings.handler);
       });
 
       return next();

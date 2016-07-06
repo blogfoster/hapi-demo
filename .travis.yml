@@ -1,0 +1,22 @@
+# run on container based infrastructure
+sudo: false
+
+language: node_js
+node_js:
+  - "5"
+
+cache:
+  directories:
+    - "./node_modules"
+
+branches:
+  except:
+    - "/^v[0-9]/" # dont build tags separately as they are build anyway for the push
+
+install:
+  - npm prune
+  - npm install
+
+script:
+  - npm run eslint
+  - npm test

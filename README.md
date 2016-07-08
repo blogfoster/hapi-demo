@@ -1,11 +1,11 @@
 # hapi-demo [![Build Status](https://travis-ci.org/blogfoster/hapi-demo.svg?branch=master)](https://travis-ci.org/blogfoster/hapi-demo)
 
-This Repo is a Hapi plugin, that adds the possibily to define demo handlers.
+This Repo is a Hapi plugin, that adds the possibility to define demo handlers.
 
-The demo handler will be called instead of the original handler of certain conditions are met.
+The demo handler will be called instead of the original handler, if certain conditions are met.
 
-A possible use-case is, if one want's to setup routes with demo date but does not want to
-add any additional code into the existing code-base and instead define separated demo handlers.
+A possible use-case is to setup routes with demo data, but without adding
+additional code into the existing code-base.
 
 ## install
 
@@ -64,7 +64,7 @@ server.route({
 ```
 
 Now when calling the `/test` route without any query parameters the normal hander will be called, but when
-calling it with query params like `/test?demo=true`, then the demo handler will be called;
+calling it with query parameters like `/test?demo=true`, then the demo handler will be called.
 
 ### API
 
@@ -74,5 +74,5 @@ calling it with query params like `/test?demo=true`, then the demo handler will 
 
 #### route options
 
-- `test`: *{function(request: Hapi.Request) : Boolean}* - test function that returns if demo handler should be called
+- `test`: *{function(request: Hapi.Request) : Boolean}* - test function that returns if the demo-handler should be called
 - `handler`: *{function(reqest: Hapi.Request, reply: Hapi.Reply)}* - demo handler

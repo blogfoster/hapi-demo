@@ -20,12 +20,12 @@ function forEachRoute(server, iterator) {
 
 /**
  * create a new handler function, that checks the given `shouldApplyHandler` function and
- * calls `demoHandler` or `handler`
+ * calls `demoOptions.handler` or `origHandler`
  *
  * @param {Object} demoOptions
  * @param {function(request: Hapi.Request) : Boolean} params.shouldApplyHandler - test function
- * @param {function(request: Hapi.Request, reply: Hapi.Reply)} params.handler - demo handler called when test was true
- * @param {function(request: Hapi.Request, reply: Hapi.Reply)} origHandler - handler called when test was false
+ * @param {function(request: Hapi.Request, reply: Hapi.Reply)} params.handler - demo handler called when test is true
+ * @param {function(request: Hapi.Request, reply: Hapi.Reply)} origHandler - handler called when test is false
  * @return {function(request: Hapi.Request, reply: Hapi.Reply)} wrapped handler
  */
 function wrapHandler({ shouldApplyHandler, handler }, origHandler) {

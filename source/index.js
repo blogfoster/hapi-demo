@@ -31,10 +31,10 @@ function forEachRoute(server, iterator) {
 function wrapHandler({ shouldApplyHandler, handler }, origHandler) {
   return function (request, reply) {
     if (shouldApplyHandler(request)) {
-      return handler(request, reply);
+      return handler.call(this, request, reply);
     }
 
-    return origHandler(request, reply);
+    return origHandler.call(this, request, reply);
   };
 }
 
